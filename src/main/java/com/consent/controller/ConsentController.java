@@ -1,5 +1,7 @@
 package com.consent.controller;
 
+import com.commons.exception.ConsentNotFoundException;
+import com.commons.exception.CustomerNotFoundException;
 import com.consent.dto.ConsentRequest;
 import com.consent.dto.ConsentResponse;
 import com.consent.service.ConsentService;
@@ -25,6 +27,6 @@ public class ConsentController {
             @RequestParam("userId") String userId) {
         return consentService.getConsent(clientId, userId)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new ConsentNotFoundException("Consent not found for clientId: " + clientId + " and userId: " + userId));
     }
 }
